@@ -1,5 +1,6 @@
 package base;
 
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.stellar.burgers.api.api.UserApi;
 import org.stellar.burgers.api.domain.Credentials;
@@ -16,11 +17,14 @@ public class UserAuthenticableTest extends BaseTest {
         userApi = new UserApi();
     }
 
+    @Step("Prepare user credentials")
     public void prepareUser() {
-        credentials = new Credentials("user1234@yandex.ru", "1234");
-        userInfo = new User(credentials.getEmail(), credentials.getPassword(), "username1234");
+        String username = faker.name().username();
+        credentials = new Credentials(username + "@yandex.ru", faker.internet().password());
+        userInfo = new User(credentials.getEmail(), credentials.getPassword(), username);
     }
 
+    @Step("Register new user")
     public void registerUser() {
         Response registerResponse = userApi.createUser(userInfo);
         if (registerResponse.then().extract().statusCode() == 200) {
@@ -28,6 +32,7 @@ public class UserAuthenticableTest extends BaseTest {
         }
     }
 
+    @Step("Login user")
     public void loginUser() {
         Response loginResponse = userApi.login(userInfo.getEmail(), userInfo.getPassword());
         if (loginResponse.then().extract().statusCode() == 200) {

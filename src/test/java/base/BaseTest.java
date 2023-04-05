@@ -1,5 +1,11 @@
 package base;
 
+import com.github.javafaker.Faker;
+
 public class BaseTest {
-    // Подключить faker
+    protected Faker faker;
+
+    public BaseTest() {
+        faker = new Faker();
+    }
 }

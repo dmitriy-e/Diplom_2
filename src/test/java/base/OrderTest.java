@@ -1,5 +1,6 @@
 package base;
 
+import io.qameta.allure.Step;
 import org.stellar.burgers.api.api.IngredientApi;
 import org.stellar.burgers.api.api.OrderApi;
 import org.stellar.burgers.api.response.IngredientResponse;
@@ -16,6 +17,7 @@ public class OrderTest extends UserAuthenticableTest {
         orderApi = new OrderApi();
     }
 
+    @Step("Prepare ingredients hash list")
     public void prepareIngredientsIdHashList() {
         ingredientApi = new IngredientApi();
         ingredientApi.retrieveIngredientsInfo().getBody().as(IngredientResponse.class).getData().forEach(el -> ingredientsIdHashList.add(el.get_id()));
